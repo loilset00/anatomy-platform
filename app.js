@@ -1,17 +1,19 @@
-window.onload=function(){
+window.onload = function(){
 
-let settings=JSON.parse(localStorage.getItem("settings"));
+// загрузка темы
+let settings = JSON.parse(localStorage.getItem("settings")) || {};
 
-if(settings){
-
-if(settings.theme==="dark"){
+if(settings.theme === "dark"){
 document.body.classList.add("dark-theme");
+}else{
+document.body.classList.remove("dark-theme");
 }
 
+// загрузка языка
+let lang = localStorage.getItem("lang") || "ru";
 
-// если светлая
-else{
-document.body.classList.remove("dark-theme");
+if(typeof loadLanguage === "function"){
+loadLanguage(lang);
 }
 
 };
