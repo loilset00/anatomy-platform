@@ -1,30 +1,30 @@
-// ===== загрузка настроек пользователя =====
+// ===== применение настроек =====
 
-function loadSettings() {
+function applySettings(){
 
-let saved = localStorage.getItem("appSettings");
+const saved = localStorage.getItem("appSettings");
 
 if(!saved) return;
 
-let settings = JSON.parse(saved);
+const settings = JSON.parse(saved);
 
-// применение темы
+// темная тема
 if(settings.theme === "dark"){
-document.body.style.background = "#1f1f1f";
-document.body.style.color = "white";
+document.body.classList.add("dark-theme");
+
+document.querySelectorAll(".card").forEach(card=>{
+card.classList.add("dark-theme");
+});
 }
 
-// можно использовать позже
-window.userSettings = settings;
-
 }
 
-// ===== сохранение действия пользователя =====
+// ===== сохранение действия =====
 
 function saveAction(){
 
-let model = document.getElementById("model").value;
-let comment = document.getElementById("comment").value;
+const model = document.getElementById("model").value;
+const comment = document.getElementById("comment").value;
 
 if(comment.length < 3){
 alert("Комментарий должен содержать минимум 3 символа");
@@ -34,56 +34,57 @@ return;
 let actions = JSON.parse(localStorage.getItem("actions")) || [];
 
 actions.push({
-model: model,
-comment: comment,
-date: new Date().toLocaleString()
+model:model,
+comment:comment,
+date:new Date().toLocaleString()
 });
 
 localStorage.setItem("actions", JSON.stringify(actions));
 
-document.getElementById("msg").innerText = "Действие сохранено";
+document.getElementById("msg").innerText="Действие сохранено";
 
-document.getElementById("comment").value = "";
+document.getElementById("comment").value="";
+
+loadHistory();
 
 }
 
-// ===== проверка гостевого режима =====
+// ===== история действий =====
 
-function checkGuest(){
+function loadHistory(){
 
-let role = localStorage.getItem("role");
+const history = document.getElementById("history");
 
-if(role === "guest"){
+if(!history) return;
 
-let btn = document.getElementById("save");
+history.innerHTML="";
+
+let actions = JSON.parse(localStorage.getItem("actions")) || [];
+
+actions.forEach(a=>{
+
+let li=document.createElement("li");
+li.className="list-group-item";
+
+li.innerText=`${a.date} — ${a.model}: ${a.comment}`;
+
+history.appendChild(li);
+
+});
+
+}
+
+// ===== запуск страницы =====
+
+window.addEventListener("DOMContentLoaded", ()=>{
+
+applySettings();
+loadHistory();
+
+const btn=document.getElementById("save");
 
 if(btn){
-btn.disabled = true;
+btn.addEventListener("click",saveAction);
 }
 
-let msg = document.getElementById("msg");
-
-if(msg){
-msg.innerText = "Гостевой режим: сохранение отключено";
-}
-
-}
-
-}
-
-// ===== загрузка страницы =====
-
-window.onload = function(){
-
-loadSettings();
-checkGuest();
-
-};
-
-// ===== кнопка сохранения =====
-
-let saveBtn = document.getElementById("save");
-
-if(saveBtn){
-saveBtn.addEventListener("click", saveAction);
-}
+});

@@ -1,7 +1,28 @@
-body{
-background:#f2f5f9;
+body {
+  background: #f4f6f9;
+  color: #222;
 }
 .card{
 max-width:400px;
 margin:auto;
+}
+
+* тёмная тема */
+body.dark-theme {
+  background: #1f1f1f;
+  color: #f1f1f1;
+}
+
+.card.dark-theme {
+  background: #2b2b2b;
+  color: #f1f1f1;
+  border-color: #444;
+}
+
+.dark-theme .form-control,
+.dark-theme select,
+.dark-theme textarea {
+  background: #333;
+  color: #f1f1f1;
+  border-color: #555;
 }

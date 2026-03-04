@@ -1,6 +1,7 @@
-document.getElementById("saveBtn").addEventListener("click", function(){
+// сохранение настроек
+document.getElementById("saveBtn").addEventListener("click", () => {
 
-let settings = {
+const settings = {
 theme: document.getElementById("theme").value,
 detail: document.getElementById("detail").value,
 speed: document.getElementById("speed").value,
@@ -13,19 +14,18 @@ alert("Настройки сохранены");
 
 });
 
-window.onload = function(){
+// загрузка настроек на странице настроек
+window.addEventListener("DOMContentLoaded", () => {
 
-let saved = localStorage.getItem("appSettings");
+const saved = localStorage.getItem("appSettings");
 
-if(saved){
+if(!saved) return;
 
-let settings = JSON.parse(saved);
+const settings = JSON.parse(saved);
 
 document.getElementById("theme").value = settings.theme;
 document.getElementById("detail").value = settings.detail;
 document.getElementById("speed").value = settings.speed;
 document.getElementById("labels").checked = settings.labels;
 
-}
-
-};
+});
