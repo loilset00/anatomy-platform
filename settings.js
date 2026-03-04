@@ -1,4 +1,4 @@
-function saveSettings(){
+document.getElementById("saveBtn").addEventListener("click", function(){
 
 let settings = {
 theme: document.getElementById("theme").value,
@@ -7,25 +7,25 @@ speed: document.getElementById("speed").value,
 labels: document.getElementById("labels").checked
 };
 
-localStorage.setItem("settings", JSON.stringify(settings));
+localStorage.setItem("appSettings", JSON.stringify(settings));
 
 alert("Настройки сохранены");
 
-}
+});
 
 window.onload = function(){
 
-let data = localStorage.getItem("settings");
+let saved = localStorage.getItem("appSettings");
 
-if(data){
+if(saved){
 
-let s = JSON.parse(data);
+let settings = JSON.parse(saved);
 
-document.getElementById("theme").value = s.theme;
-document.getElementById("detail").value = s.detail;
-document.getElementById("speed").value = s.speed;
-document.getElementById("labels").checked = s.labels;
-
-}
+document.getElementById("theme").value = settings.theme;
+document.getElementById("detail").value = settings.detail;
+document.getElementById("speed").value = settings.speed;
+document.getElementById("labels").checked = settings.labels;
 
 }
+
+};

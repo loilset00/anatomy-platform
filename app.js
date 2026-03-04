@@ -11,16 +11,17 @@ comment:document.getElementById("comment").value,
 date:Date.now()
 });
 
-let settings = JSON.parse(localStorage.getItem("settings"));
+
+document.getElementById("msg").innerText="Сохранено";
+};
+
+let settings = JSON.parse(localStorage.getItem("appSettings"));
 
 if(settings){
 
 if(settings.theme === "dark"){
-document.body.style.background="#222";
-document.body.style.color="white";
+document.body.style.background = "#222";
+document.body.style.color = "white";
 }
 
 }
-
-document.getElementById("msg").innerText="Сохранено";
-};

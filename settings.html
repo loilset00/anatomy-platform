@@ -10,7 +10,7 @@
 
 <body class="container">
 
-<h2 class="mt-4">⚙ Настройки приложения</h2>
+<h2 class="mt-4">⚙ Настройки</h2>
 
 <div class="card p-4 mt-3">
 
@@ -20,11 +20,11 @@
 <option value="dark">Тёмная</option>
 </select>
 
-<label class="form-label mt-3">Уровень детализации модели</label>
+<label class="form-label mt-3">Уровень детализации</label>
 <select id="detail" class="form-control">
-<option>Низкий</option>
-<option>Средний</option>
-<option>Высокий</option>
+<option value="low">Низкий</option>
+<option value="medium">Средний</option>
+<option value="high">Высокий</option>
 </select>
 
 <label class="form-label mt-3">Скорость анимации</label>
@@ -33,11 +33,11 @@
 <div class="form-check mt-3">
 <input type="checkbox" id="labels" class="form-check-input">
 <label class="form-check-label">
-Показывать анатомические подписи
+Показывать подписи анатомических элементов
 </label>
 </div>
 
-<button class="btn btn-primary mt-4" onclick="saveSettings()">
+<button id="saveBtn" class="btn btn-primary mt-4">
 Сохранить настройки
 </button>
 
