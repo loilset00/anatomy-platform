@@ -2,11 +2,14 @@ window.onload=function(){
 
 let theme=localStorage.getItem("theme");
 
+// если темная
 if(theme==="dark"){
-
-document.body.style.background="#1f1f1f";
-document.body.style.color="white";
-
+document.body.classList.add("dark-theme");
 }
 
+// если светлая
+else{
+document.body.classList.remove("dark-theme");
 }
+
+};
