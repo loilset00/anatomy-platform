@@ -1,31 +1,89 @@
-// сохранение настроек
-document.getElementById("saveBtn").addEventListener("click", () => {
+// ===== словарь переводов =====
 
-const settings = {
-theme: document.getElementById("theme").value,
-detail: document.getElementById("detail").value,
-speed: document.getElementById("speed").value,
-labels: document.getElementById("labels").checked
+const translations = {
+
+ru:{
+title:"⚙ Настройки приложения",
+theme:"Тема интерфейса",
+language:"Язык интерфейса"
+},
+
+en:{
+title:"⚙ Application settings",
+theme:"Interface theme",
+language:"Language"
+}
+
 };
 
-localStorage.setItem("appSettings", JSON.stringify(settings));
+
+// ===== загрузка настроек =====
+
+window.onload=function(){
+
+let settings=JSON.parse(localStorage.getItem("settings")) || {};
+
+if(settings.theme){
+document.getElementById("theme").value=settings.theme;
+}
+
+if(settings.language){
+document.getElementById("language").value=settings.language;
+applyLanguage(settings.language);
+}
+
+};
+
+
+// ===== сохранить настройки =====
+
+document.getElementById("saveBtn").onclick=function(){
+
+let settings={
+
+theme:document.getElementById("theme").value,
+language:document.getElementById("language").value,
+detail:document.getElementById("detail").value,
+speed:document.getElementById("speed").value,
+labels:document.getElementById("labels").checked
+
+};
+
+localStorage.setItem("settings",JSON.stringify(settings));
+
+applyLanguage(settings.language);
 
 alert("Настройки сохранены");
 
-});
+};
 
-// загрузка настроек на странице настроек
-window.addEventListener("DOMContentLoaded", () => {
 
-const saved = localStorage.getItem("appSettings");
+// ===== сброс настроек =====
 
-if(!saved) return;
+document.getElementById("resetBtn").onclick=function(){
 
-const settings = JSON.parse(saved);
+localStorage.removeItem("settings");
 
-document.getElementById("theme").value = settings.theme;
-document.getElementById("detail").value = settings.detail;
-document.getElementById("speed").value = settings.speed;
-document.getElementById("labels").checked = settings.labels;
+location.reload();
 
-});
+};
+
+
+// ===== перевод интерфейса =====
+
+function applyLanguage(lang){
+
+document.getElementById("title").innerText=translations[lang].title;
+document.getElementById("themeLabel").innerText=translations[lang].theme;
+document.getElementById("languageLabel").innerText=translations[lang].language;
+
+}
+
+
+// ===== кнопка назад =====
+
+function goBack(){
+
+history.back();
+
+}

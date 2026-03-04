@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Настройки</title>
 
 <link rel="stylesheet" href="style.css">
@@ -11,38 +14,69 @@
 
 <body class="container">
 
-<h2 class="mt-4">⚙ Настройки</h2>
+<h2 id="title" class="mt-4">⚙ Настройки приложения</h2>
 
 <div class="card p-4 mt-3">
 
-<label class="form-label">Тема интерфейса</label>
+<label class="form-label" id="themeLabel">Тема интерфейса</label>
 
 <select id="theme" class="form-control">
-
 <option value="light">Светлая</option>
 <option value="dark">Тёмная</option>
-
 </select>
 
-<button id="saveBtn" class="btn btn-primary mt-3">
+
+<label class="form-label mt-3" id="languageLabel">Язык интерфейса</label>
+
+<select id="language" class="form-control">
+<option value="ru">Русский</option>
+<option value="en">English</option>
+</select>
+
+
+<label class="form-label mt-3">Уровень детализации модели</label>
+
+<select id="detail" class="form-control">
+<option value="low">Низкий</option>
+<option value="medium">Средний</option>
+<option value="high">Высокий</option>
+</select>
+
+
+<label class="form-label mt-3">Скорость анимации</label>
+
+<input type="range" id="speed" min="1" max="10" class="form-range">
+
+
+<div class="form-check mt-3">
+
+<input type="checkbox" id="labels" class="form-check-input">
+
+<label class="form-check-label">
+Показывать подписи анатомических элементов
+</label>
+
+</div>
+
+
+<button id="saveBtn" class="btn btn-primary mt-4">
 Сохранить настройки
+</button>
+
+
+<button id="resetBtn" class="btn btn-warning mt-2">
+Сбросить настройки
+</button>
+
+
+<button onclick="goBack()" class="btn btn-secondary mt-2">
+Назад
 </button>
 
 </div>
 
-<script>
 
-document.getElementById("saveBtn").onclick=function(){
-
-let theme=document.getElementById("theme").value;
-
-localStorage.setItem("theme",theme);
-
-alert("Настройки сохранены");
-
-};
-
-</script>
+<script src="settings.js"></script>
 
 </body>
 </html>

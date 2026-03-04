@@ -1,11 +1,13 @@
 window.onload=function(){
 
-let theme=localStorage.getItem("theme");
+let settings=JSON.parse(localStorage.getItem("settings"));
 
-// если темная
-if(theme==="dark"){
+if(settings){
+
+if(settings.theme==="dark"){
 document.body.classList.add("dark-theme");
 }
+
 
 // если светлая
 else{
