@@ -11,5 +11,16 @@ comment:document.getElementById("comment").value,
 date:Date.now()
 });
 
+let settings = JSON.parse(localStorage.getItem("settings"));
+
+if(settings){
+
+if(settings.theme === "dark"){
+document.body.style.background="#222";
+document.body.style.color="white";
+}
+
+}
+
 document.getElementById("msg").innerText="Сохранено";
 };
