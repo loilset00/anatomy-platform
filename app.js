@@ -48,8 +48,17 @@ alert("Введите комментарий");
 return;
 }
 
-await addDoc(commentsRef,{
+// комментарий для страницы
+await addDoc(collection(db,"comments"),{
 text:text,
+date:new Date()
+});
+
+// действие для администратора
+await addDoc(collection(db,"actions"),{
+user:"Пользователь",
+model:"Выбранная модель",
+comment:text,
 date:new Date()
 });
 
@@ -58,7 +67,6 @@ document.getElementById("comment").value="";
 loadComments();
 
 };
-
 
 
 // ===== ЗАГРУЗКА КОММЕНТАРИЕВ =====

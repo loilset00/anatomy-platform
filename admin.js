@@ -19,7 +19,7 @@ usersTable.innerHTML+=`<tr>
 const actions=await getDocs(collection(db,"actions"));
 
 actions.forEach(a=>{
-let d=new Date(a.data().date).toLocaleString();
+let d = a.data().date?.toDate().toLocaleString();
 
 actionsTable.innerHTML+=`<tr>
 <td>${a.data().user}</td>
