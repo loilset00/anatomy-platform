@@ -1,4 +1,4 @@
-import { db } from "./firebase.js";
+import { auth, db } from "./firebase.js";
 
 import {
 collection,
@@ -9,12 +9,20 @@ orderBy
 }
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+import {
+signOut
+}
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+
 const commentsRef = collection(db,"comments");
 
 
+// ===== ЗАГРУЗКА СТРАНИЦЫ =====
+
 window.onload = function(){
 
-// загрузка темы
+// тема
 let settings = JSON.parse(localStorage.getItem("settings")) || {};
 
 if(settings.theme === "dark"){
@@ -23,7 +31,7 @@ document.body.classList.add("dark-theme");
 document.body.classList.remove("dark-theme");
 }
 
-// загрузка языка
+// язык
 let lang = localStorage.getItem("lang") || "ru";
 
 if(typeof loadLanguage === "function"){
@@ -39,8 +47,6 @@ loadComments();
 
 // ===== СОХРАНЕНИЕ КОММЕНТАРИЯ =====
 
-import { auth } from "./firebase.js";
-
 window.saveComment = async function(){
 
 let text = document.getElementById("comment").value;
@@ -53,18 +59,24 @@ alert("Введите комментарий");
 return;
 }
 
+// комментарии
 await addDoc(collection(db,"comments"),{
+
 text:text,
 user:user,
 model:model,
 date:new Date()
+
 });
 
+// действия для админа
 await addDoc(collection(db,"actions"),{
+
 user:user,
 model:model,
 comment:text,
 date:new Date()
+
 });
 
 document.getElementById("comment").value="";
@@ -72,6 +84,9 @@ document.getElementById("comment").value="";
 loadComments();
 
 };
+
+
+
 // ===== ЗАГРУЗКА КОММЕНТАРИЕВ =====
 
 async function loadComments(){
@@ -99,3 +114,15 @@ list.appendChild(li);
 });
 
 }
+
+
+
+// ===== LOGOUT =====
+
+window.logout = async function(){
+
+await signOut(auth);
+
+window.location="index.html";
+
+};
