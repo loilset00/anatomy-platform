@@ -39,19 +39,21 @@ loadComments();
 
 // ===== СОХРАНЕНИЕ КОММЕНТАРИЯ =====
 
+import { auth } from "./firebase.js";
+
 window.saveComment = async function(){
 
 let text = document.getElementById("comment").value;
 let model = document.getElementById("model").value;
 
-let user = auth.currentUser?.email || "Guest";
+let user = auth.currentUser?.email || "Гость";
 
 if(text.trim() === ""){
 alert("Введите комментарий");
 return;
 }
 
-// комментарий на странице
+// комментарий для страницы
 await addDoc(collection(db,"comments"),{
 text:text,
 user:user,
@@ -72,7 +74,6 @@ document.getElementById("comment").value="";
 loadComments();
 
 };
-
 // ===== ЗАГРУЗКА КОММЕНТАРИЕВ =====
 
 async function loadComments(){
