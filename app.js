@@ -48,12 +48,11 @@ let model = document.getElementById("model").value;
 
 let user = auth.currentUser?.email || "Гость";
 
-if(text.trim() === ""){
+if(text.trim()===""){
 alert("Введите комментарий");
 return;
 }
 
-// комментарий для страницы
 await addDoc(collection(db,"comments"),{
 text:text,
 user:user,
@@ -61,7 +60,6 @@ model:model,
 date:new Date()
 });
 
-// действие для админа
 await addDoc(collection(db,"actions"),{
 user:user,
 model:model,
