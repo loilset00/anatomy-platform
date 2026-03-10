@@ -1,29 +1,42 @@
 import { auth, db } from "./firebase.js";
-import { createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { doc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-document.getElementById("register").addEventListener("click", async ()=>{
-
-let email=document.getElementById("email").value;
-let pass=document.getElementById("password").value;
-
-// защита от дурака
-if(!email.includes("@")){
-alert("Введите корректный email");
-return;
+import {
+createUserWithEmailAndPassword
 }
-if(pass.length<6){
-alert("Пароль минимум 6 символов");
-return;
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+import {
+doc,
+setDoc
 }
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const user = await createUserWithEmailAndPassword(auth,email,pass);
+window.register = async function(){
 
-// сохраняем роль
-await setDoc(doc(db,"users",user.user.uid),{
-role:"user",
-created:Date.now()
+let email = document.getElementById("email").value;
+let password = document.getElementById("password").value;
+
+try{
+
+const userCredential = await createUserWithEmailAndPassword(auth,email,password);
+
+const user = userCredential.user;
+
+await setDoc(doc(db,"users",user.uid),{
+
+email:email,
+role:"user"
+
 });
 
 alert("Регистрация успешна");
-});
+
+window.location="app.html";
+
+}catch(e){
+
+alert(e.message);
+
+}
+
+}
