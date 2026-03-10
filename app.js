@@ -42,22 +42,27 @@ loadComments();
 window.saveComment = async function(){
 
 let text = document.getElementById("comment").value;
+let model = document.getElementById("model").value;
+
+let user = auth.currentUser?.email || "Guest";
 
 if(text.trim() === ""){
 alert("Введите комментарий");
 return;
 }
 
-// комментарий для страницы
+// комментарий на странице
 await addDoc(collection(db,"comments"),{
 text:text,
+user:user,
+model:model,
 date:new Date()
 });
 
-// действие для администратора
+// действие для админа
 await addDoc(collection(db,"actions"),{
-user:"Пользователь",
-model:"Выбранная модель",
+user:user,
+model:model,
 comment:text,
 date:new Date()
 });
@@ -67,7 +72,6 @@ document.getElementById("comment").value="";
 loadComments();
 
 };
-
 
 // ===== ЗАГРУЗКА КОММЕНТАРИЕВ =====
 
