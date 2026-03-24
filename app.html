@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title data-i18n="title">3D Anatomy Platform</title>
+<title>3D Анатомическая платформа</title>
 
 <link rel="stylesheet" href="style.css">
 
@@ -16,41 +16,49 @@
 
 <body class="container">
 
-<h2 class="mt-4" data-i18n="title">3D Anatomy Platform</h2>
+<h2 class="mt-4 text-center">3D Анатомическая платформа</h2>
 
-<div class="mt-3">
+<!-- КНОПКИ -->
+<div class="d-flex justify-content-between mt-3">
 
-<a href="settings.html" class="btn btn-secondary">Settings</a>
-<a href="index.html" class="btn btn-danger">Logout</a>
+<div>
+<a href="settings.html" class="btn btn-secondary">Настройки</a>
+</div>
+
+<div>
+<button onclick="logout()" class="btn btn-danger">Выйти</button>
+</div>
 
 </div>
 
+<!-- ВЫБОР МОДЕЛИ -->
 <div class="card p-4 mt-4">
 
-<h4>Select model</h4>
+<h4>Выбор 3D модели</h4>
 
 <select id="model" class="form-control">
 
-<option>Skull</option>
-<option>Spine</option>
-<option>Hip Joint</option>
-<option>Knee Joint</option>
+<option>Череп</option>
+<option>Позвоночник</option>
+<option>Тазобедренный сустав</option>
+<option>Коленный сустав</option>
 
 </select>
 
-<label class="form-label mt-3">Comment</label>
+<label class="form-label mt-3">Комментарий</label>
 
 <textarea id="comment" class="form-control"></textarea>
 
 <button onclick="saveComment()" class="btn btn-success mt-3">
-Save comment
+Сохранить комментарий
 </button>
 
 </div>
 
+<!-- КОММЕНТАРИИ -->
 <div class="card p-4 mt-4">
 
-<h5>Comments</h5>
+<h5>Комментарии</h5>
 
 <ul id="comments" class="list-group"></ul>
 
