@@ -5,30 +5,23 @@
 <title>Администратор</title>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
 </head>
 
 <body class="container">
 
-<h2 class="mt-3">Администратор системы</h2>
+<h2 class="mt-3">Администратор</h2>
 
 <!-- СТАТИСТИКА -->
 <div class="card p-3 mb-3">
-
 <h5>Статистика</h5>
-
-<p>Всего моделей: <b id="countModels">0</b></p>
-<p>Всего пользователей: <b id="countUsers">0</b></p>
-
+<p>Модели: <b id="countModels">0</b></p>
+<p>Пользователи: <b id="countUsers">0</b></p>
 </div>
 
-<!-- КНОПКИ -->
 <a href="create.html" class="btn btn-dark mb-3">Добавить модель</a>
-<a href="index.html" class="btn btn-danger mb-3">Выйти</a>
 
 <!-- МОДЕЛИ -->
 <h4>Модели</h4>
-
 <table class="table table-bordered">
 <thead>
 <tr>
@@ -38,23 +31,37 @@
 <th>Действия</th>
 </tr>
 </thead>
-
 <tbody id="models"></tbody>
 </table>
 
 <!-- ПОЛЬЗОВАТЕЛИ -->
-<h4 class="mt-5">Пользователи</h4>
-
+<h4>Пользователи</h4>
 <table class="table table-bordered">
 <thead>
 <tr>
 <th>Email</th>
 <th>Роль</th>
+<th></th>
 </tr>
 </thead>
-
 <tbody id="users"></tbody>
 </table>
+
+<!-- КОММЕНТАРИИ -->
+<h4>Комментарии</h4>
+<table class="table table-bordered">
+<thead>
+<tr>
+<th>Пользователь</th>
+<th>Модель</th>
+<th>Комментарий</th>
+<th></th>
+</tr>
+</thead>
+<tbody id="commentsAdmin"></tbody>
+</table>
+
+<a href="index.html" class="btn btn-danger">Выйти</a>
 
 <script type="module" src="admin.js"></script>
 

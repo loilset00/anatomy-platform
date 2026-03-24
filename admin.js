@@ -5,7 +5,8 @@ collection,
 getDocs,
 deleteDoc,
 doc,
-getDoc
+getDoc,
+updateDoc
 }
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
@@ -15,7 +16,7 @@ onAuthStateChanged
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 
-// 🔒 ЗАЩИТА АДМИНКИ
+// 🔒 ЗАЩИТА
 onAuthStateChanged(auth, async (user)=>{
 
 if(!user){
@@ -39,8 +40,8 @@ async function loadStats(){
 const models = await getDocs(collection(db,"models"));
 const users = await getDocs(collection(db,"users"));
 
-document.getElementById("countModels").innerText = models.size;
-document.getElementById("countUsers").innerText = users.size;
+countModels.innerText = models.size;
+countUsers.innerText = users.size;
 
 }
 
@@ -48,24 +49,63 @@ document.getElementById("countUsers").innerText = users.size;
 // 📦 МОДЕЛИ
 async function loadModels(){
 
-const table = document.getElementById("models");
-
-table.innerHTML="";
+models.innerHTML="";
 
 const snapshot = await getDocs(collection(db,"models"));
 
 snapshot.forEach(item=>{
 
-let data = item.data();
+let d = item.data();
 
-table.innerHTML += `
+models.innerHTML += `
 <tr>
-<td>${data.name}</td>
-<td>${data.description}</td>
-<td>${data.keywords}</td>
+<td>${d.name}</td>
+<td>${d.description}</td>
+<td>${d.keywords}</td>
 <td>
-<button onclick="editModel('${item.id}')" class="btn btn-warning btn-sm">✏️</button>
-<button onclick="deleteModel('${item.id}')" class="btn btn-danger btn-sm">🗑</button>
+<button onclick="deleteModel('${item.id}')">🗑</button>
+</td>
+</tr>
+`;
+
+});
+
+}
+
+window.deleteModel = async function(id){
+
+await deleteDoc(doc(db,"models",id));
+
+loadModels();
+loadStats();
+
+}
+
+
+// 👥 ПОЛЬЗОВАТЕЛИ
+window.deleteUser = async function(id){
+
+await deleteDoc(doc(db,"users",id));
+
+loadUsers();
+loadStats();
+
+}
+
+async function loadUsers(){
+
+users.innerHTML="";
+
+const snapshot = await getDocs(collection(db,"users"));
+
+snapshot.forEach(u=>{
+
+users.innerHTML += `
+<tr>
+<td>${u.data().email || "-"}</td>
+<td>${u.data().role}</td>
+<td>
+<button onclick="deleteUser('${u.id}')">🗑</button>
 </td>
 </tr>
 `;
@@ -75,44 +115,48 @@ table.innerHTML += `
 }
 
 
-// 🗑 УДАЛЕНИЕ
-window.deleteModel = async function(id){
+// 💬 КОММЕНТАРИИ
+window.deleteComment = async function(id){
 
-if(confirm("Удалить модель?")){
+await deleteDoc(doc(db,"comments",id));
 
-await deleteDoc(doc(db,"models",id));
-
-loadModels();
-loadStats();
+loadCommentsAdmin();
 
 }
 
+window.editComment = async function(id){
+
+let text = prompt("Новый текст");
+
+if(!text) return;
+
+await updateDoc(doc(db,"comments",id),{
+text:text
+});
+
+loadCommentsAdmin();
+
 }
 
+async function loadCommentsAdmin(){
 
-// ✏️ РЕДАКТИРОВАНИЕ
-window.editModel = function(id){
+commentsAdmin.innerHTML="";
 
-window.location = "edit.html?id=" + id;
+const snapshot = await getDocs(collection(db,"comments"));
 
-}
+snapshot.forEach(c=>{
 
+let d = c.data();
 
-// 👥 ПОЛЬЗОВАТЕЛИ
-async function loadUsers(){
-
-const table = document.getElementById("users");
-
-const snapshot = await getDocs(collection(db,"users"));
-
-table.innerHTML="";
-
-snapshot.forEach(u=>{
-
-table.innerHTML += `
+commentsAdmin.innerHTML += `
 <tr>
-<td>${u.data().email || "—"}</td>
-<td>${u.data().role}</td>
+<td>${d.user || "Гость"}</td>
+<td>${d.model || "-"}</td>
+<td>${d.text}</td>
+<td>
+<button onclick="editComment('${c.id}')">✏️</button>
+<button onclick="deleteComment('${c.id}')">🗑</button>
+</td>
 </tr>
 `;
 
@@ -122,6 +166,7 @@ table.innerHTML += `
 
 
 // 🚀 ЗАПУСК
+loadStats();
 loadModels();
 loadUsers();
-loadStats();
+loadCommentsAdmin();

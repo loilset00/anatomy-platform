@@ -1,13 +1,25 @@
 import { auth, db } from "./firebase.js";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } 
+
+import {
+signInWithEmailAndPassword,
+createUserWithEmailAndPassword
+}
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-import { doc, setDoc, getDoc } 
+
+import {
+doc,
+setDoc,
+getDoc
+}
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
 
 const email=document.getElementById("email");
 const pass=document.getElementById("password");
 const msg=document.getElementById("msg");
 
+
+// РЕГИСТРАЦИЯ
 document.getElementById("register").onclick=async()=>{
 
 if(!email.value.includes("@")) return msg.innerText="Неверный email";
@@ -19,13 +31,23 @@ const user=await createUserWithEmailAndPassword(auth,email.value,pass.value);
 const role=(await getDoc(doc(db,"meta","init"))).exists()? "user":"admin";
 await setDoc(doc(db,"meta","init"),{created:true});
 
-await setDoc(doc(db,"users",user.user.uid),{role});
+await setDoc(doc(db,"users",user.user.uid),{
+email: email.value,
+role: role
+});
 
 msg.innerText="Регистрация успешна";
+
 };
 
+
+// ВХОД
 document.getElementById("login").onclick=async()=>{
+
 const user=await signInWithEmailAndPassword(auth,email.value,pass.value);
+
 const data=await getDoc(doc(db,"users",user.user.uid));
+
 location.href=data.data().role==="admin"?"admin.html":"app.html";
+
 };
